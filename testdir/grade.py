@@ -29,8 +29,9 @@ def runCommand(exe, command):
 
     timeout = False
     try:
-        res = subprocess.run(command, timeout=20, stdout=out, stderr=err)
-    except:
+        res = subprocess.run(command, timeout=10, stdout=out, stderr=err)
+    except Exception as e:
+        print(e)
         timeout = True;
     out.seek(0)
     err.seek(0)
@@ -115,7 +116,7 @@ for command in valid_commands:
         msg += arg + " "
     print(msg)
     freq_out, freq_err, _ = runCommand("./frequency", command)
-    stud_out, stud_err, timeout = runCommand("./parisofwords", command)
+    stud_out, stud_err, timeout = runCommand("./pairsofwords", command)
     
     if timeout:
         print("Student's executable timed out.")
@@ -175,11 +176,22 @@ for command in invalid_commands:
         msg += arg + " "
     print(msg)
     stud_out, stud_err, _ = runCommand("./pairsofwords", command)
-    print("Error expected, stderr was:")
-    for line in stud_err:
-        print('\t' + line)
+
     if len(stud_err) != 0:
+        print("Error expected, stderr was:")
+        for line in stud_err:
+            print('\t' + line)
         invalid_score += invalid_scores[command_num]
+    else:
+        print("!!! Missing output to stderr !!!")
+        if len(stud_out) != 0:
+            print("stdout was:")
+            for line in stud_out:
+                print('\t' + line)
+            invalid_score += invalid_scores[command_num]
+        else:
+            print("Missing any error output!")
+
     command_num += 1
 
 print("TOTAL for invalid commands:", str(invalid_score) + "/20")

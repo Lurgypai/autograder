@@ -29,7 +29,7 @@ def runCommand(exe, command):
 
     timeout = False
     try:
-        res = subprocess.run(command, timeout=20, stdout=out, stderr=err)
+        res = subprocess.run(command, timeout=10, stdout=out, stderr=err)
     except Exception as e:
         print(e)
         timeout = True;
