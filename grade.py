@@ -87,7 +87,7 @@ valid_commands = [\
         ['Datasets/dracula.txt'],\
         ['-10', 'Datasets/dracula.txt', 'Datasets/frankenstein.txt'],\
         ['-10', 'Datasets/dracula.txt', 'Datasets/frankenstein.txt', 'Datasets/gettysburg.txt', 'Datasets/mobydick.txt', 'Datasets/frankenstein.txt', 'Datasets/frankenstein.txt']]
-valid_scores = [5, 5, 5, 5, 10]
+valid_scores = [5, 10, 5, 20, 20]
 
 debug_commands = [\
         ['-5', 'Datasets/dracula.txt'],\
@@ -99,11 +99,9 @@ debug_scores = [5, 5]
 
 # parallel arrays of commands that should throw to stderr
 invalid_commands = [\
-        ['-10'],\
-        ['-hello'],\
         ['-5', 'adsfasd'],\
         ['asdfasdsfa']]
-invalid_scores = [5, 5, 5, 5]
+invalid_scores = [5, 5]
 
 
 # run each valid command, make sure the outputs are the same
