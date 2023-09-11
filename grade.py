@@ -176,11 +176,22 @@ for command in invalid_commands:
         msg += arg + " "
     print(msg)
     stud_out, stud_err, _ = runCommand("./pairsofwords", command)
-    print("Error expected, stderr was:")
-    for line in stud_err:
-        print('\t' + line)
+
     if len(stud_err) != 0:
+        print("Error expected, stderr was:")
+        for line in stud_err:
+            print('\t' + line)
         invalid_score += invalid_scores[command_num]
+    else:
+        print("!!! Missing output to stderr !!!")
+        if len(stud_out) != 0:
+            print("stdout was:")
+            for line in stud_out:
+                print('\t' + line)
+            invalid_score += invalid_scores[command_num]
+        else:
+            print("Missing any error output!")
+
     command_num += 1
 
 print("TOTAL for invalid commands:", str(invalid_score) + "/20")

@@ -49,3 +49,5 @@ for FILE in submissions/*; do
     # exit the test dir
     cd ..
 done
+
+rm -rf testdir-working
