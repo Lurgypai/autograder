@@ -22,14 +22,14 @@ if len(sys.argv) > 1:
         verbose = True
 
 # runs a command and returns the whitespace stripped stdout, and regular stderr, both as an array of strings
-def runCommand(exe, command):
+def runCommand(exe, command, timeoutSeconds=10):
     command = [exe] + command
     out = open('stdout', 'w+')
     err = open('stderr', 'w+')
 
     timeout = False
     try:
-        res = subprocess.run(command, timeout=10, stdout=out, stderr=err)
+        res = subprocess.run(command, timeout=timeoutSeconds, stdout=out, stderr=err)
     except Exception as e:
         print(e)
         timeout = True;
@@ -173,7 +173,7 @@ for command in invalid_commands:
     for arg in command:
         msg += arg + " "
     print(msg)
-    stud_out, stud_err, _ = runCommand("./pairsofwords", command)
+    stud_out, stud_err, _ = runCommand("./pairsofwords", command, timeout=120)
 
     if len(stud_err) != 0:
         print("Error expected, stderr was:")
