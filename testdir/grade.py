@@ -22,14 +22,14 @@ if len(sys.argv) > 1:
         verbose = True
 
 # runs a command and returns the whitespace stripped stdout, and regular stderr, both as an array of strings
-def runCommand(exe, command):
+def runCommand(exe, command, timeoutSeconds=10):
     command = [exe] + command
     out = open('stdout', 'w+')
     err = open('stderr', 'w+')
 
     timeout = False
     try:
-        res = subprocess.run(command, timeout=10, stdout=out, stderr=err)
+        res = subprocess.run(command, timeout=timeoutSeconds, stdout=out, stderr=err)
     except Exception as e:
         print(e)
         timeout = True;
@@ -161,7 +161,7 @@ for command in valid_commands:
 
     command_num += 1
 
-print("TOTAL for valid commands:", str(valid_score) + "/30")
+print("TOTAL for valid commands:", str(valid_score) + "/60")
 print()
 
 # run each invalid command, make sure they print to stderr
@@ -192,7 +192,7 @@ for command in invalid_commands:
 
     command_num += 1
 
-print("TOTAL for invalid commands:", str(invalid_score) + "/20")
+print("TOTAL for invalid commands:", str(invalid_score) + "/10")
 print()
 
 # run all the valid commands again, using valgrind. Look for the line saying "everythings okay" If its not present, get concerned
@@ -204,10 +204,10 @@ def noMemLeaks():
         for arg in command:
             msg += arg + " "
         print(msg)
-        stud_out, stud_err, timeout = runCommand("valgrind", command)
+        stud_out, stud_err, timeout = runCommand("valgrind", command, timeoutSeconds=120)
         if timeout:
             print("Students executable timed out when checking for memory leaks...")
-            return True
+            return False
         no_leaks = False
         for line in stud_err:
             if "no leaks are possible" in line:

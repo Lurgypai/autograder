@@ -14,7 +14,7 @@ for FILE in submissions/*; do
     NAME=${FILE##*/}
 
     echo "Cleaning test dir..."
-    if [[-e testdir-working ]]; then
+    if [[ -e testdir-working ]]; then
         rm -rf testdir-working
     fi
     cp -r testdir testdir-working

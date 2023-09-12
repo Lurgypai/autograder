@@ -161,7 +161,7 @@ for command in valid_commands:
 
     command_num += 1
 
-print("TOTAL for valid commands:", str(valid_score) + "/30")
+print("TOTAL for valid commands:", str(valid_score) + "/60")
 print()
 
 # run each invalid command, make sure they print to stderr
@@ -173,7 +173,7 @@ for command in invalid_commands:
     for arg in command:
         msg += arg + " "
     print(msg)
-    stud_out, stud_err, _ = runCommand("./pairsofwords", command, timeout=120)
+    stud_out, stud_err, _ = runCommand("./pairsofwords", command)
 
     if len(stud_err) != 0:
         print("Error expected, stderr was:")
@@ -192,7 +192,7 @@ for command in invalid_commands:
 
     command_num += 1
 
-print("TOTAL for invalid commands:", str(invalid_score) + "/20")
+print("TOTAL for invalid commands:", str(invalid_score) + "/10")
 print()
 
 # run all the valid commands again, using valgrind. Look for the line saying "everythings okay" If its not present, get concerned
@@ -204,10 +204,10 @@ def noMemLeaks():
         for arg in command:
             msg += arg + " "
         print(msg)
-        stud_out, stud_err, timeout = runCommand("valgrind", command)
+        stud_out, stud_err, timeout = runCommand("valgrind", command, timeoutSeconds=120)
         if timeout:
             print("Students executable timed out when checking for memory leaks...")
-            return True
+            return False
         no_leaks = False
         for line in stud_err:
             if "no leaks are possible" in line:
